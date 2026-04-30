@@ -19,9 +19,20 @@ public class DoubleLinkedList<T>
     }
 
     //methods to do:
-    public void Add()
+    public void Add(T data)
     {
-        throw new NotImplementedException();
+        var newNode = new Node<T>(data);
+        if (_head == null)
+        {
+            _head = newNode;
+            _tail = newNode;
+        }
+        else
+        {
+            newNode.Next = _head;
+            _head.Previous = newNode;
+            _head = newNode;
+        }
     }
 
     public string ShowForward()
@@ -67,6 +78,28 @@ public class DoubleLinkedList<T>
     //private methods
     override public string ToString()
     {
-        return base.ToString();
+        var current = _head;
+        var result = string.Empty;
+        while (current != null)
+        {
+            result += $"{current.Data} -> ";
+            current = current.Next;
+        }
+        result += "null";
+        return result;
     }
+
+    public string ToStringReverse()
+    {
+        var current = _tail;
+        var result = string.Empty;
+        while (current != null)
+        {
+            result += $"{current.Data} -> ";
+            current = current.Previous;
+        }
+        result += "null";
+        return result;
+    }
+
 }
