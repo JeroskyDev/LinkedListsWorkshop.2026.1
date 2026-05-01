@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DLL.Backend;
 
-public class DoubleLinkedList<T>
+public class DoubleLinkedList<T> where T : IComparable<T>
 {
     //fields
     private Node<T>? _head;
@@ -21,18 +21,43 @@ public class DoubleLinkedList<T>
     //methods to do:
     public void Add(T data)
     {
+        /*make implementation similar to InsertInOrder method i already did in Zulu´s classes*/
         var newNode = new Node<T>(data);
         if (_head == null)
         {
             _head = newNode;
             _tail = newNode;
+            return;
         }
-        else
+        var current = _head;
+        if(newNode.Data.CompareTo(_head.Data) < 0 && newNode.Data.CompareTo(_tail.Data) < 0)
         {
-            newNode.Next = _head;
-            _head.Previous = newNode;
-            _head = newNode;
+            if (_head == null)
+            {
+                _head = newNode;
+                _tail = newNode;
+            }
+            else
+            {
+                newNode.Next = _head;
+                _head.Previous = newNode;
+                _head = newNode;
+            }
+            return;
+        }    
+        while (current.Next != null)
+        {
+            if(newNode.Data.CompareTo(current.Next.Data) < 0)
+            {
+                newNode.Next = current.Next;
+                current.Next = newNode;
+                newNode.Previous = current; //the other pointer to update, the previous one.
+                newNode.Next.Previous = newNode; //make the node behind current.Next be the newNode, so the structure is conserved
+                return;
+            }
+            current = current.Next;
         }
+        current.Next = newNode;
     }
 
     public string ShowForward()
