@@ -19,7 +19,7 @@ do
             Console.WriteLine(list);
             break;
         case "3":
-            Console.WriteLine(list.ToStringReverse());
+            Console.WriteLine(list.ToStringReverse()); //needs fixing
             break;
         case "4":
             break;
