@@ -30,19 +30,11 @@ public class DoubleLinkedList<T> where T : IComparable<T>
             return;
         }
         var current = _head;
-        if(newNode.Data.CompareTo(_head.Data) < 0 && newNode.Data.CompareTo(_tail.Data) < 0)
+        if(newNode.Data.CompareTo(_head.Data) < 0)
         {
-            if (_head == null)
-            {
-                _head = newNode;
-                _tail = newNode;
-            }
-            else
-            {
-                newNode.Next = _head;
-                _head.Previous = newNode;
-                _head = newNode;
-            }
+            newNode.Next = _head;
+            _head.Previous = newNode;
+            _head = newNode;
             return;
         }    
         while (current.Next != null)
@@ -51,25 +43,30 @@ public class DoubleLinkedList<T> where T : IComparable<T>
             {
                 newNode.Next = current.Next;
                 current.Next = newNode;
-                newNode.Previous = current; //the other pointer to update, the previous one.
-                newNode.Next.Previous = newNode; //make the node behind current.Next be the newNode, so the structure is conserved
+                newNode.Previous = current; 
+                newNode.Next.Previous = newNode; 
                 return;
             }
             current = current.Next;
         }
         current.Next = newNode;
+        newNode.Previous = current;
+        _tail = newNode;
     }
 
-    public string ShowForward()
+    /*
+    public string ShowForward() //this method is done alrready, is the ToString() override.
     {
         throw new NotImplementedException();
     }
+    */
 
-    public string ShowBackwards()
+    /*
+    public string ShowBackwards() //this method is done already, is the ToStringReverse() at the end.
     {
         throw new NotImplementedException();
     }
-
+    */
     public void OrderDescending()
     {
         throw new NotImplementedException();
@@ -85,9 +82,18 @@ public class DoubleLinkedList<T> where T : IComparable<T>
         throw new NotImplementedException();
     }
 
-    public bool Exists()
+    public bool Exists(T data)
     {
-        throw new NotImplementedException();
+        var current = _head;
+        while (current != null)
+        {
+            if (current.Data != null && current.Data.Equals(data))
+            {
+                return true;
+            }
+            current = current.Next;
+        }
+        return false;
     }
 
     public void DeleteOcurrence()

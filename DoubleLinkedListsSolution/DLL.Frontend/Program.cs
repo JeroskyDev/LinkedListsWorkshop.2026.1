@@ -1,5 +1,6 @@
 ﻿//console app for our double linked list.
 using DLL.Backend;
+using System.ComponentModel.DataAnnotations;
 
 var list = new DoubleLinkedList<string>();
 var option = string.Empty;
@@ -28,6 +29,17 @@ do
         case "6":
             break;
         case "7":
+            Console.Write("Enter the value to search: ");
+            value = Console.ReadLine() ?? string.Empty;
+            var exists = list.Exists(value);
+            if (exists == true)
+            {
+                Console.WriteLine($"the value {value} EXISTS in the list.");
+            }
+            else
+            {
+                Console.WriteLine($"the value {value} does NOT exist in the list.");
+            }
             break;
         case "8":
             break;
