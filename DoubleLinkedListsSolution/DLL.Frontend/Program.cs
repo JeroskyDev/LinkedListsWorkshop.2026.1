@@ -27,8 +27,12 @@ do
             Console.WriteLine("List got sorted in descending order.");
             break;
         case "5":
+            value = list.ShowMode();
+            Console.WriteLine($"{value}");
             break;
         case "6":
+            value = list.ShowGraph();
+            Console.WriteLine($"{value}");
             break;
         case "7":
             Console.Write("Enter the value to search: ");
@@ -44,12 +48,16 @@ do
             }
             break;
         case "8":
-            Console.Write("Enter a value to find an ocurrence and delete that ocurrence: .");
+            Console.Write("Enter a value to find an ocurrence and delete that ocurrence: ");
             value = Console.ReadLine() ?? string.Empty;
             list.DeleteOcurrence(value);
             Console.WriteLine($"{value} was deleted from the list.");
             break;
         case "9":
+            Console.Write("Enter a value to find all of the ocurrences and delete them: ");
+            value = Console.ReadLine() ?? string.Empty;
+            list.DeleteAllOcurrences(value);
+            Console.WriteLine($"{value} was deleted from the list.");
             break;
         case "0":
             Console.WriteLine("Exiting...");

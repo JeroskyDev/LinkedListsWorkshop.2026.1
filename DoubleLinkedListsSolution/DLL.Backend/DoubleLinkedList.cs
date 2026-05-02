@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Security;
 using System.Text;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -93,13 +94,71 @@ public class DoubleLinkedList<T> where T : IComparable<T>
 
     public string ShowMode()
     {
-        throw new NotImplementedException();
+        var current = _head;
+        var countsMode = new Dictionary<T, int>(); //use dictionaries to count the mode
+        while (current != null)
+        {
+            if (current.Data != null && countsMode.ContainsKey(current.Data)) //see if the key contains whatever data is inside of current to accumulate it in the mode variable.
+            {
+                countsMode[current.Data]++;
+            }
+            else
+            {
+                countsMode[current.Data] = 1;
+            }
+            current = current.Next;
+        }
+
+        int maxCount = 0;
+        var result = "Mode(s): ";
+        foreach (var pair in countsMode) //find mode
+        {
+            if (pair.Value > maxCount)
+            {
+                maxCount = pair.Value;
+            }
+        }
+
+        foreach (var pair in countsMode) //add it to the result
+        {
+            if (pair.Value == maxCount)
+            {
+                result += $"{pair.Key}, ";
+            }
+        }
+        return result.TrimEnd(',', ' ');
     }
 
+    
     public string ShowGraph()
     {
-        throw new NotImplementedException();
+        //similar implementation to ShowMode() just without finding the max value, and getting every value of the keys in the dictionary.
+        var current = _head;
+        var countsFound = new Dictionary<T, int>();
+
+        while (current != null)
+        {
+            if (current.Data != null && countsFound.ContainsKey(current.Data)) 
+            {
+                countsFound[current.Data]++;
+            }
+            else
+            {
+                countsFound[current.Data] = 1;
+            }
+            current = current.Next;
+        }
+
+        var result = string.Empty;
+
+        foreach (var pair in countsFound) 
+        {
+            //we don´t need to filter so we just add to the result every value
+            result += $"{pair.Key} {new string('*', pair.Value)} \n";
+        }
+        return result.TrimEnd(',', ' ');
     }
+    
 
     public bool Exists(T data)
     {
