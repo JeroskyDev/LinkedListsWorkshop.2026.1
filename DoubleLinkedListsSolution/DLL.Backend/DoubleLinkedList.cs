@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DLL.Backend;
 
@@ -69,7 +70,25 @@ public class DoubleLinkedList<T> where T : IComparable<T>
     */
     public void OrderDescending()
     {
-        throw new NotImplementedException();
+        //same bubble sort that i used when making the ascending order, but instead of making the swap when the actual node was higher than the next one, do it when the actual node is lower.
+        if (_head == null || _head.Next == null) return;
+        bool swapped;
+        do
+        {
+            swapped = false;
+            var current = _head;
+            while (current.Next != null)
+            {
+                if (current.Data.CompareTo(current.Next.Data) < 0)
+                {
+                    swapped = true;
+                    var temp = current.Data;
+                    current.Data = current.Next.Data;
+                    current.Next.Data = temp;
+                }
+                current = current.Next;
+            }
+        } while (swapped);
     }
 
     public string ShowMode()
@@ -96,14 +115,66 @@ public class DoubleLinkedList<T> where T : IComparable<T>
         return false;
     }
 
-    public void DeleteOcurrence()
+    public void DeleteOcurrence(T data)
     {
-        throw new NotImplementedException();
+        var current = _head;
+        while (current != null)
+        {
+            if (current.Data!.Equals(data))
+            {
+                if (current == _head)
+                {
+                    _head = _head.Next;
+                    _head!.Previous = null;
+                }
+                else if (current == _tail)
+                {
+                    _tail = _tail.Previous;
+                    _tail!.Next = null;
+                }
+                else
+                {
+                    current.Previous!.Next = current.Next;
+                    current.Next!.Previous = current.Previous;
+                }
+                return;
+            }
+            current = current.Next;
+        }
     }
 
-    public void DeleteAllOcurrences()
+    public void DeleteAllOcurrences(T data)
     {
-        throw new NotImplementedException();
+        var current = _head;
+        while (current != null)
+        {
+            if (current.Data!.Equals(data))
+            {
+                if (current == _head)
+                {
+                    _head = _head.Next;
+                    _head!.Previous = null;
+                    current = _head; //continue after eliminating the first ocurrence, until we find another.
+                    continue; //to prevent the code of iterating the remaining conditions, so when an ocurrence gets deleted, the iteration starts again.
+                }
+                else if (current == _tail)
+                {
+                    _tail = _tail.Previous;
+                    _tail!.Next = null;
+                    current = null; //because we eliminated the last node here, then, we just stop the loop.
+                    continue;
+                }
+                else
+                {
+                    current.Previous!.Next = current.Next;
+                    current.Next!.Previous = current.Previous;
+                    current = current.Next;
+                    continue;
+                }
+            }
+            current = current.Next;
+            //i deleted the return so it iterates through all of the ocurrences instead of just one with the return. This is why this method is so similar to DeleteOcurrence().
+        }
     }
 
     //private methods

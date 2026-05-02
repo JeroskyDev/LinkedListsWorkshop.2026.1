@@ -23,6 +23,8 @@ do
             Console.WriteLine(list.ToStringReverse()); //needs fixing
             break;
         case "4":
+            list.OrderDescending();
+            Console.WriteLine("List got sorted in descending order.");
             break;
         case "5":
             break;
@@ -42,6 +44,10 @@ do
             }
             break;
         case "8":
+            Console.Write("Enter a value to find an ocurrence and delete that ocurrence: .");
+            value = Console.ReadLine() ?? string.Empty;
+            list.DeleteOcurrence(value);
+            Console.WriteLine($"{value} was deleted from the list.");
             break;
         case "9":
             break;
